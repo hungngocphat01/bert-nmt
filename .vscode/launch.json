@@ -1,0 +1,39 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "args": [
+                "./destdir",
+                "-a=transformer_s2_iwslt_de_en",
+                "--optimizer=adam",
+                "--lr=0.0005",
+                "-s=en",
+                "-t=de",
+                "--label-smoothing=0.1",
+                "--dropout=0.3",
+                "--max-tokens=4000",
+                "--min-lr=1e-09",
+                "--lr-scheduler=inverse_sqrt",
+                "--weight-decay=0.0001",
+                "--criterion=label_smoothed_cross_entropy",
+                "--max-update=150000",
+                "--warmup-updates=4000",
+                "--warmup-init-lr=1e-07",
+                "--adam-betas=(0.9,0.8)",
+                "--save-dir=checkpoints",
+                "--share-all-embeddings",
+                "--encoder-bert-dropout",
+                "--encoder-bert-dropout-ratio=0.5",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}

@@ -262,6 +262,8 @@ class TransformerS2Model(FairseqEncoderDecoderModel):
 
         src_dict, tgt_dict = task.source_dictionary, task.target_dictionary
         if len(task.datasets) > 0:
+            # This is a dataset assigned by the task
+            # The bert-nmt source code embedded the bert data files into the LanguagePairDataset class
             src_berttokenizer = next(iter(task.datasets.values())).berttokenizer
         else:
             src_berttokenizer = BertTokenizer.from_pretrained(args.bert_model_name)
@@ -335,6 +337,18 @@ class TransformerS2Model(FairseqEncoderDecoderModel):
                 - the decoder's output of shape `(batch, tgt_len, vocab)`
                 - a dictionary with any model-specific outputs
         """
+
+        """
+        __MYNOTE
+        The inputs to the forward function of the model are KWARGS EXPANDED from
+        the `sample` variable, provided by a `FairseqDataset`. In bert-nmt, it is 
+        provided by `LanguagePairDataset`.
+
+        The LanguagePairDataset.__getitem__ function packs the input to the model, 
+        which include the `bert_input`. It is essentially a BATCH corresponding to 
+        the `src_input`, which was taken from the data which the TranslationTask passed into.
+        """
+
         bert_encoder_padding_mask = bert_input.eq(self.berttokenizer.pad())
         bert_encoder_out, _ =  self.bert_encoder(bert_input, output_all_encoded_layers=True, attention_mask= 1. - bert_encoder_padding_mask)
         bert_encoder_out = bert_encoder_out[self.bert_output_layer]

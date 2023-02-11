@@ -130,6 +130,9 @@ class LanguagePairDataset(FairseqDataset):
         self.append_eos_to_target = append_eos_to_target
 
     def __getitem__(self, index):
+        # __MYNOTE
+        # 1D input sentence (token are integer-indexed)
+        
         tgt_item = self.tgt[index] if self.tgt is not None else None
         src_item = self.src[index]
         src_bert_item = self.srcbert[index]
